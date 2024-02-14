@@ -1,0 +1,52 @@
+.message {
+  
+}
+
+.imageAndText {
+  display: flex;
+  align-items: flex-end;
+}
+
+.imageAndText img {
+  width: 48px;
+  height: 48px;
+  top: 204px;
+  left: 1162px;
+}
+
+.text {
+  background-color: #0066CC;
+  color: white;
+}
+
+.text:after {
+
+}
+
+.name {
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  
+}
+
+.messageText {
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.time {
+  font-family: Montserrat;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 12px;
+  letter-spacing: 0em;
+  text-align: left;
+}
