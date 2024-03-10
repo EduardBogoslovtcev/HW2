@@ -1,6 +1,6 @@
 .sidebar {
     z-index: 20;
-    position: fixed;
+    position: absolute;
     transition: 0.2s ease-in;
 
     height: 100vh;
