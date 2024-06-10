@@ -36,7 +36,8 @@ function Clock() {
     }
 
     const stringTime = date.toLocaleTimeString([], { hour12: false }); // Форматирование текущего времени
-    const stringDate = date.toLocaleDateString(); // Форматирование текущей даты
+    const stringDate = `${('0' + date.getDate()).slice(-2)}.${('0' + (date.getMonth() + 1)).slice(-2)}.${date.getFullYear()}`;
+
     const stringDay = date.toLocaleDateString('en-US', { weekday: 'long' }); // Получение текущего дня недели на английском
     const stringMonth = date.toLocaleDateString('en-US', { month: 'long' }); // Получение текущего месяца на английском
 
