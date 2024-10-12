@@ -13,7 +13,7 @@ const HW13 = () => {
     const [text, setText] = useState("");
     const [info, setInfo] = useState("");
     const [image, setImage] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const send = (x?: boolean | null) => () => {
         const url =
@@ -25,43 +25,35 @@ const HW13 = () => {
         setImage("");
         setText("");
         setInfo("...loading");
-        setLoading(true); // Start loading
+        setIsLoading(true); // Start loading
 
         axios
             .post(url, { success: x })
             .then((res) => {
                 setCode("Код 200!");
                 setImage(success200);
-                setText(res.data.errorText || "Success!"); // Update based on response
-                setInfo("Request successful.");
+                setInfo(res.data.info);
+                setText(res.data.errorText);
             })
-            .catch((error) => {
-                setLoading(false); // Stop loading
-                if (error.response) {
-                    // Server responded with a status other than 200
-                    setCode(`Код ${error.response.status}`);
-                    setImage(
-                        error.response.status === 400
-                            ? error400
-                            : error.response.status === 500
-                            ? error500
-                            : errorUnknown
-                    );
-                    setText(
-                        error.response.errorText || "Unknown error occurred."
-                    );
-                    setInfo("Request failed.");
+            .catch((e) => {
+                if (e.response.status === 500) {
+                    setCode(e.message);
+                    setImage(error500);
+                    setText(e.response.data.errorText);
+                    setInfo(e.response.data.info);
+                } else if (e.response.status === 400) {
+                    setCode(e.message);
+                    setImage(error400);
+                    setText(e.response.data.errorText);
+                    setInfo(e.response.data.info);
                 } else {
-                    // Network error or other issues
-                    setCode("Ошибка");
+                    setCode("Error");
                     setImage(errorUnknown);
-                    setText("Не удалось выполнить запрос.");
-                    setInfo("Network error or unknown error occurred.");
+                    setText(e.message);
+                    setInfo(e.name);
                 }
             })
-            .finally(() => {
-                setLoading(false); // Stop loading after request completes
-            });
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -74,7 +66,7 @@ const HW13 = () => {
                         id={"hw13-send-true"}
                         onClick={send(true)}
                         xType={"secondary"}
-                        disabled={loading} // Disable when loading
+                        disabled={isLoading} // Disable when loading
                     >
                         Send true
                     </SuperButton>
@@ -82,7 +74,7 @@ const HW13 = () => {
                         id={"hw13-send-false"}
                         onClick={send(false)}
                         xType={"secondary"}
-                        disabled={loading} // Disable when loading
+                        disabled={isLoading} // Disable when loading
                     >
                         Send false
                     </SuperButton>
@@ -90,7 +82,7 @@ const HW13 = () => {
                         id={"hw13-send-undefined"}
                         onClick={send(undefined)}
                         xType={"secondary"}
-                        disabled={loading} // Disable when loading
+                        disabled={isLoading} // Disable when loading
                     >
                         Send undefined
                     </SuperButton>
@@ -98,7 +90,7 @@ const HW13 = () => {
                         id={"hw13-send-null"}
                         onClick={send(null)} // simulating incorrect request
                         xType={"secondary"}
-                        disabled={loading} // Disable when loading
+                        disabled={isLoading} // Disable when loading
                     >
                         Send null
                     </SuperButton>
