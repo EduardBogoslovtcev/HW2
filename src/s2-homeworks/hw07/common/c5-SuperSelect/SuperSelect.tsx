@@ -2,18 +2,18 @@ import React, {
     SelectHTMLAttributes,
     DetailedHTMLProps,
     ChangeEvent,
-} from 'react'
-import s from './SuperSelect.module.css'
+} from "react";
+import s from "./SuperSelect.module.css";
 
 type DefaultSelectPropsType = DetailedHTMLProps<
     SelectHTMLAttributes<HTMLSelectElement>,
     HTMLSelectElement
->
+>;
 
 type SuperSelectPropsType = DefaultSelectPropsType & {
-    options?: any[]
-    onChangeOption?: (option: any) => void
-}
+    options?: any[];
+    onChangeOption?: (option: any) => void;
+};
 
 const SuperSelect: React.FC<SuperSelectPropsType> = ({
     options,
@@ -25,7 +25,7 @@ const SuperSelect: React.FC<SuperSelectPropsType> = ({
     const mappedOptions: any[] = options
         ? options.map((o) => (
               <option
-                  id={'hw7-option-' + o.id}
+                  id={"hw7-option-" + o.id}
                   className={s.option}
                   key={o.id}
                   value={o.id}
@@ -33,27 +33,29 @@ const SuperSelect: React.FC<SuperSelectPropsType> = ({
                   {o.value}
               </option>
           ))
-        : [] 
+        : [];
 
     const onChangeCallback = (e: ChangeEvent<HTMLSelectElement>) => {
         // делают студенты
         // если onChangeOption вообще существует, то...
-       onChangeOption && onChangeOption(Number(e.currentTarget.value));
-    //    console.log(e.currentTarget.value)
-    }
+        onChangeOption && onChangeOption(Number(e.currentTarget.value));
+        console.log(e.currentTarget.value);
+        if (onChange) {
+            onChange(e); // Ensure the default onChange still works
+        }
+    };
 
-    const finalSelectClassName = s.select + (className ? ' ' + className : '')
+    const finalSelectClassName = s.select + (className ? " " + className : "");
 
     return (
         <select
             className={finalSelectClassName}
             onChange={onChangeCallback}
             {...restProps}
-
         >
             {mappedOptions}
         </select>
-    )
-}
+    );
+};
 
-export default SuperSelect
+export default SuperSelect;
